@@ -3,7 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config["DEBUG"] = True
+
+SQLALCHEMY_DATABASE_URI =  "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
+    username="jannatpatel",
+    password="webblogger",
+    hostname="jannatpatel.mysql.pythonanywhere-services.com",
+    databasename="jannatpatel$posts",
+)
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 class BlogPost(db.Model):
@@ -31,9 +41,14 @@ def posts():
         db.session.commit()
         return redirect('/posts')
     else:
-        all_posts = BlogPost.query.order_by(-BlogPost.date_created).all()
+        all_posts = BlogPost.query.order_by(BlogPost.date_created).all()
         return render_template('posts.html', posts=all_posts)
 
+
+@app.route('/posts/read/<int:id>')
+def read(id):
+    post = BlogPost.query.get_or_404(id)
+    return render_template('displayPost.html', post=post)
 
 @app.route('/posts/delete/<int:id>')
 def delete(id):
@@ -68,7 +83,3 @@ def create():
         return redirect('/posts')
     else:
         return render_template('create.html')
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+
+<h3 style="margin-top: 20px;">{{post.title}}</h3>
+<div>
+	{% if post.author %}
+	<small style="display: inline-block;"> Written by {{post.author}} on {{post.date_created}}</small>
+	{% else %}
+	<small style="display: inline-block;">Written by Anonymous on {{post.date_created}}</small>
+	{% endif %}
+	<div style="display: inline-block;" class="float-right">
+		<a class="btn btn-primary" href="/posts/edit/{{post.id}}">Edit</a>
+		<a class="btn btn-danger" href="/posts/delete/{{post.id}}">Delete</a>
+	</div>
+</div>
+
+<br />
+<br />
+<p style="white-space: pre-wrap;">{{post.content}}</p>
+
+{% endblock %}

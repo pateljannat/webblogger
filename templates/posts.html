@@ -1,10 +1,10 @@
 {% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
-<br>
+<br />
 <div>
-    <h1 style="display:inline-block;">Post List</h1>
-    <a style="display:inline-block;" href="/posts/create" class="btn btn-primary float-right">Create Post</a>
+	<h1 style="display: inline-block;">Post List</h1>
+	<a style="display: inline-block;" href="/posts/create" class="btn btn-primary float-right">Create Post</a>
 </div>
-<hr>
+<hr />
 {% for post in posts %}
 <h3>{{post.title}}</h3>
 {% if post.author %}
@@ -14,7 +14,8 @@
 {% endif %}
 <br />
 <br />
-<p style="white-space: pre-wrap;">{{post.content}}</p>
+<p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 490px;">{{post.content}}</p>
+<a class="btn btn-success" href="/posts/{{post.id}}">Read More</a>
 <a class="btn btn-primary" href="/posts/edit/{{post.id}}">Edit</a>
 <a class="btn btn-danger" href="/posts/delete/{{post.id}}">Delete</a>
 <hr />
